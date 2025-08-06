@@ -1,2 +1,2 @@
 # wiidiscord.github.io
-website
+The official website of Nintendo Land (Formerly Wii).

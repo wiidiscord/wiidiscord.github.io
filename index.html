@@ -6,20 +6,14 @@
   <title>Nintendo Lands Website</title>
   <link rel="icon" type="image/x-icon" href="falcon.ico">
   <style>
-    /* Main custom font for general text and date */
     @font-face {
       font-family: 'CustomFont';
       src: url('font.otf') format('opentype');
-      font-weight: normal;
-      font-style: normal;
     }
 
-    /* Custom font for time */
     @font-face {
       font-family: 'TimeFont';
       src: url('font2.ttf') format('truetype');
-      font-weight: normal;
-      font-style: normal;
     }
 
     body {
@@ -28,14 +22,13 @@
       height: 100vh;
       background: url('bg.png') no-repeat center center fixed;
       background-size: cover;
-      position: relative;
-      cursor: none;
       overflow: hidden;
       font-family: 'CustomFont', sans-serif;
       color: #222;
+      cursor: none;
     }
 
-    /* Top welcome text */
+    /* Shared Elements */
     .top-text {
       position: absolute;
       top: 20px;
@@ -43,18 +36,15 @@
       transform: translateX(-50%);
       font-size: 2rem;
       color: #222;
-      z-index: 10;
+      text-align: center;
     }
 
-    /* Bottom-left small text above all backgrounds */
     .bottom-left-text {
       position: absolute;
       bottom: 10px;
       left: 10px;
       font-size: 0.9rem;
       color: #888;
-      z-index: 10; /* above bg2 and bg1 */
-      pointer-events: none;
     }
 
     .bottom-img {
@@ -63,43 +53,27 @@
       left: 0;
       width: 100%;
       height: auto;
-      z-index: 0;
     }
 
-    /* Fake cursor */
-    #fakeCursor {
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      pointer-events: none;
-      transform: translate(-50%, -50%) rotate(0deg);
-      z-index: 9999;
-      transition: transform 0.1s linear;
-    }
-
-    /* Clock container at bottom */
     .clock-container {
       position: absolute;
       bottom: 20px;
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
-      z-index: 10;
     }
-
     .time {
       font-family: 'TimeFont', sans-serif;
       font-size: 3rem;
       color: #888;
     }
-
     .date {
       font-family: 'CustomFont', sans-serif;
       font-size: 1.5rem;
       color: #888;
     }
 
-    /* Button styling using your sprite */
+    /* Button (default desktop) */
     .scale-button {
       position: absolute;
       top: 80px;
@@ -112,16 +86,14 @@
       border: none;
       cursor: none;
       transition: transform 0.2s ease;
-      z-index: 5; /* above backgrounds but below fake cursor */
+      z-index: 1;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-
     .scale-button:hover {
       transform: translateX(-50%) scale(1.2);
     }
-
     .scale-button span {
       font-family: 'CustomFont', sans-serif;
       color: #000;
@@ -131,7 +103,18 @@
       transition: inherit;
     }
 
-    /* Fullscreen black overlay */
+    /* Fake Cursor (desktop only) */
+    #fakeCursor {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(0deg);
+      z-index: 9999;
+      transition: transform 0.1s linear;
+    }
+
+    /* Black Overlay */
     #blackOverlay {
       position: fixed;
       top: 0;
@@ -148,50 +131,85 @@
       opacity: 1;
       pointer-events: all;
     }
+
+    /* --- Mobile Overrides --- */
+    body.mobile {
+      cursor: auto;
+    }
+    body.mobile .scale-button {
+      width: 200px;
+      height: 70px;
+      top: 120px;
+      cursor: pointer;
+    }
+    body.mobile .scale-button:hover {
+      transform: none; /* disable hover effect */
+    }
+    body.mobile .scale-button:active {
+      transform: scale(1.2);
+    }
+    body.mobile .scale-button span {
+      font-size: 1.2rem;
+    }
+    body.mobile #fakeCursor {
+      display: none; /* hide fake cursor */
+    }
+    body.mobile .time {
+      font-size: 2rem;
+    }
+    body.mobile .date {
+      font-size: 1rem;
+    }
+    body.mobile .bottom-left-text {
+      font-size: 0.7rem;
+    }
   </style>
 </head>
 <body>
-  <!-- Top welcome text -->
   <div class="top-text">Welcome to the Nintendo Land Website!</div>
 
-  <!-- Button with black text -->
   <button class="scale-button">
     <span>Join the Discord!</span>
   </button>
 
-  <!-- Bottom-left credits -->
   <div class="bottom-left-text">
     Cooler 01 - Website Maker | yarn yoshi - Discord Server Maker | The Wii U - Old Website
   </div>
 
-  <!-- Bottom image -->
   <img src="bg2.png" alt="Bottom Image" class="bottom-img">
-
-  <!-- Fake cursor -->
   <img src="cursor.png" id="fakeCursor" alt="Fake Cursor">
 
-  <!-- Clock and date -->
   <div class="clock-container">
     <div class="time" id="time">00:00</div>
     <div class="date" id="date">January 1, 1970</div>
   </div>
 
-  <!-- Black overlay -->
   <div id="blackOverlay"></div>
 
   <script>
-    // Fake cursor
-    const fakeCursor = document.getElementById('fakeCursor');
-    let lastX = 0;
-    let rotation = 0;
-    document.addEventListener('mousemove', e => {
-      fakeCursor.style.left = e.clientX + 'px';
-      fakeCursor.style.top = e.clientY + 'px';
-      const dx = e.clientX - lastX;
-      rotation = dx > 0 ? 15 : dx < 0 ? -15 : 0;
-      fakeCursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-      lastX = e.clientX;
-    });
+    // Detect Mobile
+    function isMobile() {
+      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    }
+
+    if (isMobile()) {
+      document.body.classList.add("mobile");
+    }
+
+    // Fake Cursor (desktop only)
+    if (!isMobile()) {
+      const fakeCursor = document.getElementById('fakeCursor');
+      let lastX = 0;
+      let rotation = 0;
+      document.addEventListener('mousemove', e => {
+        fakeCursor.style.left = e.clientX + 'px';
+        fakeCursor.style.top = e.clientY + 'px';
+        const dx = e.clientX - lastX;
+        rotation = dx > 0 ? 15 : dx < 0 ? -15 : 0;
+        fakeCursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+        lastX = e.clientX;
+      });
+    }
 
     // Clock
     function updateClock() {
@@ -206,7 +224,7 @@
     setInterval(updateClock, 1000);
     updateClock();
 
-    // Button click: fade black then open Discord
+    // Button click (works for both)
     const button = document.querySelector('.scale-button');
     const overlay = document.getElementById('blackOverlay');
 
@@ -217,7 +235,6 @@
       }, 500);
     });
 
-    // Hide overlay when tab loses focus
     window.addEventListener('blur', () => {
       overlay.classList.remove('active');
     });

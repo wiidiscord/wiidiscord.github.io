@@ -37,6 +37,7 @@
       font-size: 2rem;
       color: #222;
       text-align: center;
+      z-index: 10;
     }
 
     .bottom-left-text {
@@ -45,6 +46,8 @@
       left: 10px;
       font-size: 0.9rem;
       color: #888;
+      z-index: 10; /* ⬅️ make sure it appears over bg2 */
+      pointer-events: none;
     }
 
     .bottom-img {
@@ -53,6 +56,7 @@
       left: 0;
       width: 100%;
       height: auto;
+      z-index: 0;
     }
 
     .clock-container {
@@ -61,6 +65,7 @@
       left: 50%;
       transform: translateX(-50%);
       text-align: center;
+      z-index: 10;
     }
     .time {
       font-family: 'TimeFont', sans-serif;
@@ -76,7 +81,7 @@
     /* Button (default desktop) */
     .scale-button {
       position: absolute;
-      top: 80px;
+      top: 80px; /* normal position on PC */
       left: 50%;
       transform: translateX(-50%);
       width: 300px;
@@ -86,7 +91,7 @@
       border: none;
       cursor: none;
       transition: transform 0.2s ease;
-      z-index: 1;
+      z-index: 5;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -139,7 +144,7 @@
     body.mobile .scale-button {
       width: 200px;
       height: 70px;
-      top: 120px;
+      top: 40px;          /* moved higher on mobile */
       cursor: pointer;
     }
     body.mobile .scale-button:hover {

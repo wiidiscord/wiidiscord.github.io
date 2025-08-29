@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nintendo Lands Website</title>
+  <link rel="icon" type="image/x-icon" href="falcon.ico">
+  <style>
+    /* Main custom font for general text and date */
+    @font-face {
+      font-family: 'CustomFont';
+      src: url('font.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    /* Custom font for time */
+    @font-face {
+      font-family: 'TimeFont';
+      src: url('font2.ttf') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url('bg.png') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      cursor: none;
+      overflow: hidden;
+      font-family: 'CustomFont', sans-serif;
+      color: #222;
+    }
+
+    /* Top welcome text */
+    .top-text {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      color: #222;
+      z-index: 10;
+    }
+
+    /* Bottom-left small text above all backgrounds */
+    .bottom-left-text {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      font-size: 0.9rem;
+      color: #888;
+      z-index: 10; /* above bg2 and bg1 */
+      pointer-events: none;
+    }
+
+    .bottom-img {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: auto;
+      z-index: 0;
+    }
+
+    /* Fake cursor */
+    #fakeCursor {
+      position: absolute;
+      width: 220px;
+      height: 220px;
+      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(0deg);
+      z-index: 9999;
+      transition: transform 0.1s linear;
+    }
+
+    /* Clock container at bottom */
+    .clock-container {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      text-align: center;
+      z-index: 10;
+    }
+
+    .time {
+      font-family: 'TimeFont', sans-serif;
+      font-size: 3rem;
+      color: #888;
+    }
+
+    .date {
+      font-family: 'CustomFont', sans-serif;
+      font-size: 1.5rem;
+      color: #888;
+    }
+
+    /* Button styling using your sprite */
+    .scale-button {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 300px;
+      height: 100px;
+      background: url('button.png') no-repeat center center;
+      background-size: contain;
+      border: none;
+      cursor: none;
+      transition: transform 0.2s ease;
+      z-index: 5; /* above backgrounds but below fake cursor */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scale-button:hover {
+      transform: translateX(-50%) scale(1.2);
+    }
+
+    .scale-button span {
+      font-family: 'CustomFont', sans-serif;
+      color: #000;
+      font-size: 1.7rem;
+      pointer-events: none;
+      user-select: none;
+      transition: inherit;
+    }
+
+    /* Fullscreen black overlay */
+    #blackOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: black;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      z-index: 10000;
+    }
+    #blackOverlay.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top welcome text -->
+  <div class="top-text">Welcome to the Nintendo Land Website!</div>
+
+  <!-- Button with black text -->
+  <button class="scale-button">
+    <span>Join the Discord!</span>
+  </button>
+
+  <!-- Bottom-left credits -->
+  <div class="bottom-left-text">
+    Cooler 01 - Website Maker | yarn yoshi - Discord Server Maker | The Wii U - Old Website
+  </div>
+
+  <!-- Bottom image -->
+  <img src="bg2.png" alt="Bottom Image" class="bottom-img">
+
+  <!-- Fake cursor -->
+  <img src="cursor.png" id="fakeCursor" alt="Fake Cursor">
+
+  <!-- Clock and date -->
+  <div class="clock-container">
+    <div class="time" id="time">00:00</div>
+    <div class="date" id="date">January 1, 1970</div>
+  </div>
+
+  <!-- Black overlay -->
+  <div id="blackOverlay"></div>
+
+  <script>
+    // Fake cursor
+    const fakeCursor = document.getElementById('fakeCursor');
+    let lastX = 0;
+    let rotation = 0;
+    document.addEventListener('mousemove', e => {
+      fakeCursor.style.left = e.clientX + 'px';
+      fakeCursor.style.top = e.clientY + 'px';
+      const dx = e.clientX - lastX;
+      rotation = dx > 0 ? 15 : dx < 0 ? -15 : 0;
+      fakeCursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
+      lastX = e.clientX;
+    });
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2,'0');
+      const minutes = now.getMinutes().toString().padStart(2,'0');
+      const time = `${hours}:${minutes}`;
+      const date = now.toLocaleDateString();
+      document.getElementById('time').textContent = time;
+      document.getElementById('date').textContent = date;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Button click: fade black then open Discord
+    const button = document.querySelector('.scale-button');
+    const overlay = document.getElementById('blackOverlay');
+
+    button.addEventListener('click', () => {
+      overlay.classList.add('active');
+      setTimeout(() => {
+        window.open('https://discord.gg/mEnq9TPzyw', '_blank');
+      }, 500);
+    });
+
+    // Hide overlay when tab loses focus
+    window.addEventListener('blur', () => {
+      overlay.classList.remove('active');
+    });
+  </script>
+</body>
+</html>

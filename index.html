@@ -1,249 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nintendo Land Website</title>
-  <link rel="icon" type="image/x-icon" href="falcon.ico">
-  <style>
-    @font-face {
-      font-family: 'CustomFont';
-      src: url('font.otf') format('opentype');
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nintendo Land Website</title>
+<link rel="icon" type="image/x-icon" href="falcon.ico">
+<style>
+@font-face { font-family: 'CustomFont'; src: url('font.otf') format('opentype'); }
+@font-face { font-family: 'TimeFont'; src: url('font2.ttf') format('truetype'); }
 
-    @font-face {
-      font-family: 'TimeFont';
-      src: url('font2.ttf') format('truetype');
-    }
+body {
+  margin:0; padding:0; height:100vh;
+  background: url('bg.png') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
+  font-family: 'CustomFont', sans-serif;
+  cursor: none;
+}
 
-    body {
-      margin: 0;
-      padding: 0;
-      height: 100vh;
-      background: url('bg.png') no-repeat center center fixed;
-      background-size: cover;
-      overflow: hidden;
-      font-family: 'CustomFont', sans-serif;
-      color: #222;
-      cursor: none;
-    }
+.top-text { position:absolute; top:20px; left:50%; transform:translateX(-50%); font-size:2rem; color:#222; text-align:center; z-index:10; }
+.bottom-left-text { position:absolute; bottom:10px; left:10px; font-size:0.9rem; color:#888; z-index:10; pointer-events:none; }
+.bottom-img { position:absolute; bottom:0; left:0; width:100%; height:auto; z-index:0; }
+.clock-container { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); text-align:center; z-index:10; }
+.time { font-family:'TimeFont', sans-serif; font-size:3rem; color:#888; }
+.date { font-family:'CustomFont', sans-serif; font-size:1.5rem; color:#888; }
 
-    /* Shared Elements */
-    .top-text {
-      position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      color: #222;
-      text-align: center;
-      z-index: 10;
-    }
+.scale-button { position:absolute; left:50%; transform:translateX(-50%); width:300px; height:100px; background:url('button.png') no-repeat center center; background-size:contain; border:none; cursor:none; transition:transform 0.2s ease; z-index:5; display:flex; align-items:center; justify-content:center; }
+.scale-button:hover { transform:translateX(-50%) scale(1.2); }
+.scale-button span { font-family:'CustomFont', sans-serif; color:#000; font-size:1.7rem; pointer-events:none; user-select:none; transition:inherit; }
 
-    .bottom-left-text {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      font-size: 0.9rem;
-      color: #888;
-      z-index: 10; /* ⬅️ make sure it appears over bg2 */
-      pointer-events: none;
-    }
+#fakeCursor { position:absolute; width:220px; height:220px; pointer-events:none; transform:translate(-50%, -50%) rotate(0deg); z-index:9999; transition: transform 0.1s linear; }
 
-    .bottom-img {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: auto;
-      z-index: 0;
-    }
+#healthScreen {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:black;
+  display:flex; flex-direction:column; justify-content:center; align-items:center;
+  z-index:10000; cursor:pointer; opacity:1; transition:opacity 1s ease;
+}
 
-    .clock-container {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 10;
-    }
-    .time {
-      font-family: 'TimeFont', sans-serif;
-      font-size: 3rem;
-      color: #888;
-    }
-    .date {
-      font-family: 'CustomFont', sans-serif;
-      font-size: 1.5rem;
-      color: #888;
-    }
+#healthScreen img {
+  width:auto;
+  height:60%;
+  max-width:90%;
+}
 
-    /* Button (default desktop) */
-    .scale-button {
-      position: absolute;
-      top: 80px; /* normal position on PC */
-      left: 50%;
-      transform: translateX(-50%);
-      width: 300px;
-      height: 100px;
-      background: url('button.png') no-repeat center center;
-      background-size: contain;
-      border: none;
-      cursor: none;
-      transition: transform 0.2s ease;
-      z-index: 5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .scale-button:hover {
-      transform: translateX(-50%) scale(1.2);
-    }
-    .scale-button span {
-      font-family: 'CustomFont', sans-serif;
-      color: #000;
-      font-size: 1.7rem;
-      pointer-events: none;
-      user-select: none;
-      transition: inherit;
-    }
+#clickText {
+  margin-top:20px;
+  font-family:'CustomFont', sans-serif;
+  font-size:2rem; 
+  color:white;
+  animation: flash 2.5s infinite;
+  text-align:center;
+}
 
-    /* Fake Cursor (desktop only) */
-    #fakeCursor {
-      position: absolute;
-      width: 220px;
-      height: 220px;
-      pointer-events: none;
-      transform: translate(-50%, -50%) rotate(0deg);
-      z-index: 9999;
-      transition: transform 0.1s linear;
-    }
+@keyframes flash { 0%,50%,100%{opacity:1;} 25%,75%{opacity:0;} }
 
-    /* Black Overlay */
-    #blackOverlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: black;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.5s ease;
-      z-index: 10000;
-    }
-    #blackOverlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+#blackOverlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:black; opacity:0; pointer-events:none; transition:opacity 0.5s ease; z-index:9999;
+}
 
-    /* --- Mobile Overrides --- */
-    body.mobile {
-      cursor: auto;
-    }
-    body.mobile .scale-button {
-      width: 200px;
-      height: 70px;
-      top: 40px;          /* moved higher on mobile */
-      cursor: pointer;
-    }
-    body.mobile .scale-button:hover {
-      transform: none; /* disable hover effect */
-    }
-    body.mobile .scale-button:active {
-      transform: scale(1.2);
-    }
-    body.mobile .scale-button span {
-      font-size: 1.2rem;
-    }
-    body.mobile #fakeCursor {
-      display: none; /* hide fake cursor */
-    }
-    body.mobile .time {
-      font-size: 2rem;
-    }
-    body.mobile .date {
-      font-size: 1rem;
-    }
-    body.mobile .bottom-left-text {
-      font-size: 0.7rem;
-    }
-  </style>
+body.mobile { cursor:auto; }
+body.mobile .scale-button { width:200px; height:70px; cursor:pointer; }
+body.mobile .scale-button:hover { transform:none; }
+body.mobile .scale-button:active { transform:scale(1.2); }
+body.mobile .scale-button span { font-size:1.2rem; }
+body.mobile #fakeCursor { display:none; }
+body.mobile .time { font-size:2rem; }
+body.mobile .date { font-size:1rem; }
+body.mobile .bottom-left-text { font-size:0.7rem; }
+body.mobile #clickText { font-size:1.8rem; }
+
+</style>
 </head>
 <body>
-  <div class="top-text">Welcome to the Nintendo Land Website!</div>
 
-  <button class="scale-button">
-    <span>Join the Discord!</span>
-  </button>
+<div id="healthScreen">
+  <img src="healthtext.png" alt="Health & Safety">
+  <div id="clickText">Click The Screen To Continue</div>
+</div>
 
-  <div class="bottom-left-text">
-    Cooler 01 - Website Maker | Wii shop enthusiast - Discord Server Owner | The Wii U - Old Website
-  </div>
+<div class="top-text">Welcome to the Nintendo Land Website!</div>
 
-  <img src="bg2.png" alt="Bottom Image" class="bottom-img">
-  <img src="cursor.png" id="fakeCursor" alt="Fake Cursor">
+<button class="scale-button" style="top:80px;">
+  <span>Join the Discord!</span>
+</button>
 
-  <div class="clock-container">
-    <div class="time" id="time">00:00</div>
-    <div class="date" id="date">January 1, 1970</div>
-  </div>
+<button class="scale-button" id="oldSiteBtn" style="top:200px;">
+  <span>Go To Old Website</span>
+</button>
 
-  <div id="blackOverlay"></div>
+<div class="bottom-left-text">Cooler 01 - Website Maker | Wii shop enthusiast - Discord Server Owner | The Wii U - Old Website</div>
 
-  <script>
-    // Detect Mobile
-    function isMobile() {
-      return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    }
+<img src="bg2.png" alt="Bottom Image" class="bottom-img">
+<img src="cursor.png" id="fakeCursor" alt="Fake Cursor">
 
-    if (isMobile()) {
-      document.body.classList.add("mobile");
-    }
+<div class="clock-container">
+  <div class="time" id="time">00:00</div>
+  <div class="date" id="date">January 1, 1970</div>
+</div>
 
-    // Fake Cursor (desktop only)
-    if (!isMobile()) {
-      const fakeCursor = document.getElementById('fakeCursor');
-      let lastX = 0;
-      let rotation = 0;
-      document.addEventListener('mousemove', e => {
-        fakeCursor.style.left = e.clientX + 'px';
-        fakeCursor.style.top = e.clientY + 'px';
-        const dx = e.clientX - lastX;
-        rotation = dx > 0 ? 15 : dx < 0 ? -15 : 0;
-        fakeCursor.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-        lastX = e.clientX;
-      });
-    }
+<div id="blackOverlay"></div>
 
-    // Clock
-    function updateClock() {
-      const now = new Date();
-      const hours = now.getHours().toString().padStart(2,'0');
-      const minutes = now.getMinutes().toString().padStart(2,'0');
-      const time = `${hours}:${minutes}`;
-      const date = now.toLocaleDateString();
-      document.getElementById('time').textContent = time;
-      document.getElementById('date').textContent = date;
-    }
-    setInterval(updateClock, 1000);
-    updateClock();
+<audio id="startMusic" src="menustart.mp3"></audio>
+<audio id="loopMusic" loop src="music.mp3"></audio>
+<audio id="dingSound" src="ding.mp3" preload="auto"></audio>
+<audio id="selectSound" src="Select.mp3" preload="auto"></audio>
 
-    // Button click (works for both)
-    const button = document.querySelector('.scale-button');
-    const overlay = document.getElementById('blackOverlay');
+<script>
+if(/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) document.body.classList.add("mobile");
 
-    button.addEventListener('click', () => {
-      overlay.classList.add('active');
-      setTimeout(() => {
-        window.open('https://discord.gg/W3zWF6w9RD', '_blank');
-      }, 500);
-    });
+// Fake cursor
+if(!document.body.classList.contains("mobile")){
+  const fakeCursor = document.getElementById('fakeCursor');
+  let lastX=0;
+  document.addEventListener('mousemove', e=>{
+    fakeCursor.style.left = e.clientX + 'px';
+    fakeCursor.style.top = e.clientY + 'px';
+    const dx = e.clientX - lastX;
+    fakeCursor.style.transform = `translate(-50%,-50%) rotate(${dx>0?15:dx<0?-15:0}deg)`;
+    lastX = e.clientX;
+  });
+}
 
-    window.addEventListener('blur', () => {
-      overlay.classList.remove('active');
-    });
-  </script>
+// Clock
+function updateClock(){
+  const now = new Date();
+  document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
+  document.getElementById('date').textContent = now.toLocaleDateString();
+}
+setInterval(updateClock,1000);
+updateClock();
+
+// Health & Safety
+const healthScreen = document.getElementById('healthScreen');
+const startMusic = document.getElementById('startMusic');
+const loopMusic = document.getElementById('loopMusic');
+const ding = document.getElementById('dingSound');
+const select = document.getElementById('selectSound');
+
+function playDing(){ ding.currentTime = 0; ding.play().catch(()=>{}); }
+function playSelect(){ select.currentTime = 0; select.play().catch(()=>{}); }
+
+healthScreen.addEventListener('click', ()=>{
+  playDing();
+  healthScreen.style.opacity = '0';
+  setTimeout(()=>{
+    healthScreen.style.display='none';
+    startMusic.play().catch(()=>{ document.addEventListener('click',()=>startMusic.play()); });
+  },1000);
+});
+startMusic.addEventListener('ended', ()=>loopMusic.play().catch(()=>{}));
+
+// Overlay logic for buttons
+const blackOverlay = document.getElementById('blackOverlay');
+function handleButtonClick(url){
+  playDing();
+  blackOverlay.style.opacity='1';
+  blackOverlay.style.pointerEvents='all';
+  setTimeout(()=>{
+    window.open(url,'_blank');
+    blackOverlay.style.opacity='0';
+    setTimeout(()=>{ blackOverlay.style.pointerEvents='none'; },500);
+  },500);
+}
+
+// Button hover: play Select.mp3
+document.querySelectorAll('.scale-button').forEach((btn,index)=>{
+  btn.addEventListener('mouseenter', ()=>playSelect());
+  if(index===0) btn.addEventListener('click', ()=>handleButtonClick('https://discord.gg/W3zWF6w9RD'));
+  if(index===1) btn.addEventListener('click', ()=>handleButtonClick('https://CooIer01.github.io/old-nintendo-land/'));
+});
+</script>
 </body>
 </html>
 

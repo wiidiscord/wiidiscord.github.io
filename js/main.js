@@ -1,8 +1,8 @@
 // const 
 
 
-const ding = new Audio("/sounds/ding.mp3");
-const select = new Audio("/sounds/Select.mp3");
+const ding = new Audio("../sounds/ding.mp3");
+const select = new Audio("../sounds/Select.mp3");
 
 document.addEventListener('DOMContentLoaded', function() {
 

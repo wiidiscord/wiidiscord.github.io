@@ -1,11 +1,11 @@
 /* across all pages */
 
-@font-face { font-family: 'CustomFont'; src: url('/font.otf') format('opentype'); }
-@font-face { font-family: 'TimeFont'; src: url('/font2.ttf') format('truetype'); }
+@font-face { font-family: 'CustomFont'; src: url('../font.otf') format('opentype'); }
+@font-face { font-family: 'TimeFont'; src: url('../font2.ttf') format('truetype'); }
 * {margin:0; padding:0; font-family: 'CustomFont', sans-serif; line-height:35px;}
 
 /* main */
-.scale-button {margin:auto; width:300px; height:100px; margin-bottom:5px; margin-top:5px; background:url('/images/common/button.png') no-repeat center center; background-size:contain; border:none; cursor:none; transition:transform 0.2s ease; z-index:5; display:flex; align-items:center; justify-content:center; transform-origin:center;} 
+.scale-button {margin:auto; width:300px; height:100px; margin-bottom:5px; margin-top:5px; background:url('../images/common/button.png') no-repeat center center; background-size:contain; border:none; cursor:none; transition:transform 0.2s ease; z-index:5; display:flex; align-items:center; justify-content:center; transform-origin:center;} 
 .scale-button:hover { transform: scale(1.2); margin-bottom:7px; margin-top:7px; }
 .scale-button span {  color:#000; font-size:1.7rem; pointer-events:none; user-select:none; transition:inherit;}
 /* add class="buttonlink" to <a>s with a scale button in it */
@@ -16,7 +16,7 @@
 
 body {
 height:100vh;
-  background: url('/images/common/bg.png') no-repeat center center fixed;
+  background: url('../images/common/bg.png') no-repeat center center fixed;
   background-size: cover;
   overflow: hidden;
   cursor: default;
@@ -28,7 +28,7 @@ height:100vh;
 /* footer */
 #footer {
     height:84px;
-    background-image:url("/images/common/bg2.png");
+    background-image:url("../images/common/bg2.png");
     background-size:cover;
     position:absolute;
     bottom:0px;

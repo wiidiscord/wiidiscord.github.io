@@ -1,0 +1,77 @@
+/* across all pages */
+
+@font-face { font-family: 'CustomFont'; src: url('/font.otf') format('opentype'); }
+@font-face { font-family: 'TimeFont'; src: url('/font2.ttf') format('truetype'); }
+* {margin:0; padding:0; font-family: 'CustomFont', sans-serif; line-height:35px;}
+
+/* main */
+.scale-button {margin:auto; width:300px; height:100px; margin-bottom:5px; margin-top:5px; background:url('/images/common/button.png') no-repeat center center; background-size:contain; border:none; cursor:none; transition:transform 0.2s ease; z-index:5; display:flex; align-items:center; justify-content:center; transform-origin:center;} 
+.scale-button:hover { transform: scale(1.2); margin-bottom:7px; margin-top:7px; }
+.scale-button span {  color:#000; font-size:1.7rem; pointer-events:none; user-select:none; transition:inherit;}
+/* add class="buttonlink" to <a>s with a scale button in it */
+ .buttonlink {text-decoration:none;}
+
+#fakeCursor { position:absolute; width:220px; height:220px; pointer-events:none; transform:translate(-50%, -50%) rotate(0deg); z-index:9999; transition: transform 0.1s linear; }
+
+
+body {
+height:100vh;
+  background: url('/images/common/bg.png') no-repeat center center fixed;
+  background-size: cover;
+  overflow: hidden;
+  cursor: default;
+}
+
+.top-text {color:#222; text-align:center; z-index:10; font-size:2rem; }
+/* main */
+
+/* footer */
+#footer {
+    height:84px;
+    background-image:url("/images/common/bg2.png");
+    background-size:cover;
+    position:absolute;
+    bottom:0px;
+    left:0px;
+    width:100%; min-height:84px; height:156px; max-height:156px;
+    overflow:hidden;
+}
+#footcontent {
+    position:relative;display:block;top:28px; left:0px; width:100%; height:123px; max-height:123px; overflow:hidden auto;
+}
+.clock-container {position:relative;top:8%; text-align:center; z-index:10; height:55px; padding-top:5px; padding-bottom:5px;  width:fit-content; margin:auto; display:block; margin-bottom:23px; }
+.time { display:block; font-family:'TimeFont', sans-serif; font-size:3rem; color:#888; height:38px;}
+.date {display:block;   font-size:1.5rem; color:#888; height:33px;}
+.bottom-left-text { float:bottom; display:block;  text-align:left; font-size:0.9rem; color:#888; z-index:10;  margin-left:15px;  line-height:18px; width:96%; display:block; margin-top:35px; overflow: auto hidden; height:23px;  white-space: nowrap; padding-bottom:13px;}
+/* footer */
+
+
+#blackOverlay {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background-color:black; opacity:0; pointer-events:none; transition:opacity 0.5s ease; z-index:9999;
+}
+
+/* use @media for responcive stuff, this is just checking if mobile device to hide the cursor ;p */
+
+body.mobile { cursor:auto; }
+body.mobile #fakeCursor { display:none; }
+
+/* use @media for responcive stuff, this is just checking if mobile device to hide the cursor ;p */
+
+
+      /* PC */
+      @media only screen and (min-width: 744px) {
+.bottom-left-text {margin-top:35px; padding-bottom:0px;}
+       }
+     /* PC */
+     
+     /* mobile */
+   @media only screen and (max-width: 743px) {
+body .scale-button span { font-size:1.2rem; }
+.top-text {font-size:1.7rem;}
+#footcontent {overflow:hidden;}
+.clock-container{height:50px; top:3%;}
+.bottom-left-text {margin-top:1px}
+       }
+     /* mobile */
+ 

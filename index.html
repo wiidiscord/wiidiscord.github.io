@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nintendo Land Website</title>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="stylesheet" href="/css/const.css">
+<link rel="stylesheet" href="/css/index.css">
+<script src="/js/main.js"></script>
+<script>
+  // Health & Safety
+const startMusic = new Audio("/sounds/menustart.mp3");
+const loopMusic = new Audio("/sounds/music.mp3");
+
+document.addEventListener('DOMContentLoaded', function() {
+const healthScreen = document.getElementById('healthScreen');
+
+healthScreen.addEventListener('click', ()=>{
+  playDing();
+  healthScreen.style.opacity = '0';
+  setTimeout(()=>{
+    healthScreen.style.display='none';
+    startMusic.play().catch(()=>{ document.addEventListener('click',()=>startMusic.play()); });
+  },1000);
+});
+
+});
+
+startMusic.addEventListener('ended', ()=>loopMusic.play().catch(()=>{}));
+
+
+</script>
+</head>
+<body>
+<div id="blackOverlay"></div> 
+
+<!-- main content -->
+
+<div id="healthScreen" ><img src="/images/healthtext.png" alt="Health & Safety"><div id="clickText">Click The Screen To Continue</div></div>
+<img src="/images/common/cursor.png" id="fakeCursor" alt="Fake Cursor"> 
+
+<div class="top-text" style="line-height:35px;">Welcome to the Nintendo Land Website!</div>
+
+<a href="https://discord.gg/W3zWF6w9RD" onclick="handleButtonClick();" class="buttonlink" target="_blank">
+<button class="scale-button" >
+  <span>Join the Discord!</span>
+</button></a>
+
+<a href="https://CooIer01.github.io/old-nintendo-land/" onclick="handleButtonClick();" class="buttonlink" target="_blank" >
+  <button class="scale-button">
+  <span>Go To Old Website</span>
+ </button></a>
+
+<div id="footer">
+
+<div id="footcontent">
+  <div class="clock-container">
+   <div class="time" id="time">00:00</div>
+   <div class="date" id="date">January 1, 1970</div>
+  </div>
+  <div class="bottom-left-text">Cooler 01 - Website Maker | Wii shop enthusiast - Discord Server Owner | The Wii U - Old Website</div>
+
+</div>
+
+</div>
+
+
+</body>
+</html>
+
+
+
+

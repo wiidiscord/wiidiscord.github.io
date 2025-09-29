@@ -110,7 +110,7 @@ body.mobile #clickText { font-size:1.8rem; }
 <script>
 if(/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) document.body.classList.add("mobile");
 
-// Fake cursor
+
 if(!document.body.classList.contains("mobile")){
   const fakeCursor = document.getElementById('fakeCursor');
   let lastX=0;
@@ -123,7 +123,7 @@ if(!document.body.classList.contains("mobile")){
   });
 }
 
-// Clock
+
 function updateClock(){
   const now = new Date();
   document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
@@ -132,7 +132,7 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
-// Health & Safety
+
 const healthScreen = document.getElementById('healthScreen');
 const startMusic = document.getElementById('startMusic');
 const loopMusic = document.getElementById('loopMusic');
@@ -152,7 +152,7 @@ healthScreen.addEventListener('click', ()=>{
 });
 startMusic.addEventListener('ended', ()=>loopMusic.play().catch(()=>{}));
 
-// Overlay logic for buttons
+
 const blackOverlay = document.getElementById('blackOverlay');
 function handleButtonClick(url){
   playDing();
@@ -165,7 +165,7 @@ function handleButtonClick(url){
   },500);
 }
 
-// Button hover: play Select.mp3
+
 document.querySelectorAll('.scale-button').forEach((btn,index)=>{
   btn.addEventListener('mouseenter', ()=>playSelect());
   if(index===0) btn.addEventListener('click', ()=>handleButtonClick('https://discord.gg/W3zWF6w9RD'));
@@ -174,7 +174,3 @@ document.querySelectorAll('.scale-button').forEach((btn,index)=>{
 </script>
 </body>
 </html>
-
-
-
-

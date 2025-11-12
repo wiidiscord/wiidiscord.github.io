@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>🎄🎄Nintendo Land Website🎄🎄</title>
-<link rel="icon" type="image/x-icon" href="christmas.ico">
+<title>Nintendo Land Website</title>
+<link rel="icon" type="image/x-icon" href="falcon.ico">
 <style>
 @font-face { font-family: 'CustomFont'; src: url('font.otf') format('opentype'); }
 @font-face { font-family: 'TimeFont'; src: url('font2.ttf') format('truetype'); }
@@ -18,51 +18,12 @@ body {
   cursor: none;
 }
 
-/* yippee snow!!! */
-#snowCanvas {
-  position: fixed;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .top-text { position:absolute; top:20px; left:50%; transform:translateX(-50%); font-size:2rem; color:#222; text-align:center; z-index:10; }
-
-/* bottom text */
-.bottom-left-text {
-  position:absolute;
-  bottom:10px; left:10px;
-  font-size:0.9rem;
-  z-index:10;
-}
-
-/* easteregg */
-.bottom-left-text .cooler {
-  cursor:pointer;
-  background: linear-gradient(90deg, red, green);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  transition:filter 0.3s, text-shadow 0.3s;
-}
-.bottom-left-text .cooler:hover {
-  filter: brightness(1.4);
-  text-shadow: 0 0 10px #fff, 0 0 20px #0f0;
-}
-
-/* other credits – green → red */
-.bottom-left-text .credits {
-  background: linear-gradient(90deg, green, red);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  opacity:0.85;
-  user-select:none;
-}
-
+.bottom-left-text { position:absolute; bottom:10px; left:10px; font-size:0.9rem; color:#888; z-index:10; pointer-events:none; }
 .bottom-img { position:absolute; bottom:0; left:0; width:100%; height:auto; z-index:0; }
 .clock-container { position:absolute; bottom:20px; left:50%; transform:translateX(-50%); text-align:center; z-index:10; }
-.time { font-family:'TimeFont', sans-serif; font-size:3rem; color:#fff; text-shadow:0 0 10px #f00; }
-.date { font-family:'CustomFont', sans-serif; font-size:1.5rem; color:#fff; text-shadow:0 0 10px #0f0; }
+.time { font-family:'TimeFont', sans-serif; font-size:3rem; color:#888; }
+.date { font-family:'CustomFont', sans-serif; font-size:1.5rem; color:#888; }
 
 .scale-button { position:absolute; left:50%; transform:translateX(-50%); width:300px; height:100px; background:url('button.png') no-repeat center center; background-size:contain; border:none; cursor:none; transition:transform 0.2s ease; z-index:5; display:flex; align-items:center; justify-content:center; }
 .scale-button:hover { transform:translateX(-50%) scale(1.2); }
@@ -99,40 +60,6 @@ body {
   background-color:black; opacity:0; pointer-events:none; transition:opacity 0.5s ease; z-index:9999;
 }
 
-/* Cube */
-#cubeScreen {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:radial-gradient(circle, #022, #000);
-  display:none;
-  justify-content:center; align-items:center;
-  perspective:1000px;
-  z-index:20000;
-}
-.cube {
-  position:relative;
-  width:100px; height:100px;
-  transform-style:preserve-3d;
-  animation:spin 4s linear infinite;
-}
-.face {
-  position:absolute;
-  width:100px; height:100px;
-  background:linear-gradient(135deg, red, green);
-  box-shadow:0 0 15px #fff inset;
-  opacity:0.95;
-  border:2px solid #fff;
-}
-.face:nth-child(1){transform:rotateY(0deg) translateZ(50px);}
-.face:nth-child(2){transform:rotateY(90deg) translateZ(50px);}
-.face:nth-child(3){transform:rotateY(180deg) translateZ(50px);}
-.face:nth-child(4){transform:rotateY(-90deg) translateZ(50px);}
-.face:nth-child(5){transform:rotateX(90deg) translateZ(50px);}
-.face:nth-child(6){transform:rotateX(-90deg) translateZ(50px);}
-@keyframes spin {
-  from { transform:rotateX(0deg) rotateY(0deg); }
-  to { transform:rotateX(360deg) rotateY(360deg); }
-}
-
 body.mobile { cursor:auto; }
 body.mobile .scale-button { width:200px; height:70px; cursor:pointer; }
 body.mobile .scale-button:hover { transform:none; }
@@ -143,11 +70,10 @@ body.mobile .time { font-size:2rem; }
 body.mobile .date { font-size:1rem; }
 body.mobile .bottom-left-text { font-size:0.7rem; }
 body.mobile #clickText { font-size:1.8rem; }
+
 </style>
 </head>
 <body>
-
-<canvas id="snowCanvas"></canvas>
 
 <div id="healthScreen">
   <img src="healthtext.png" alt="Health & Safety">
@@ -164,11 +90,7 @@ body.mobile #clickText { font-size:1.8rem; }
   <span>Go To Old Website</span>
 </button>
 
-<!-- bottom-left text -->
-<div class="bottom-left-text">
-  <span class="cooler" id="coolerText">Cooler 01</span>
-  <span class="credits"> - Website Maker | Wii shop enthusiast - Discord Server Owner | The Wii U - Old Website</span>
-</div>
+<div class="bottom-left-text">Cooler 01 - Website Maker | Wii shop enthusiast - Discord Server Owner | The Wii U - Old Website</div>
 
 <img src="bg2.png" alt="Bottom Image" class="bottom-img">
 <img src="cursor.png" id="fakeCursor" alt="Fake Cursor">
@@ -180,26 +102,14 @@ body.mobile #clickText { font-size:1.8rem; }
 
 <div id="blackOverlay"></div>
 
-<!-- Easteregg screen -->
-<div id="cubeScreen">
-  <div class="cube">
-    <div class="face"></div>
-    <div class="face"></div>
-    <div class="face"></div>
-    <div class="face"></div>
-    <div class="face"></div>
-    <div class="face"></div>
-  </div>
-</div>
-
 <audio id="startMusic" src="menustart.mp3"></audio>
 <audio id="loopMusic" loop src="music.mp3"></audio>
 <audio id="dingSound" src="ding.mp3" preload="auto"></audio>
 <audio id="selectSound" src="Select.mp3" preload="auto"></audio>
-<audio id="jingleSound" src="jingle.mp3" preload="auto"></audio>
 
 <script>
 if(/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) document.body.classList.add("mobile");
+
 
 if(!document.body.classList.contains("mobile")){
   const fakeCursor = document.getElementById('fakeCursor');
@@ -213,6 +123,7 @@ if(!document.body.classList.contains("mobile")){
   });
 }
 
+
 function updateClock(){
   const now = new Date();
   document.getElementById('time').textContent = now.getHours().toString().padStart(2,'0')+':'+now.getMinutes().toString().padStart(2,'0');
@@ -221,12 +132,12 @@ function updateClock(){
 setInterval(updateClock,1000);
 updateClock();
 
+
 const healthScreen = document.getElementById('healthScreen');
 const startMusic = document.getElementById('startMusic');
 const loopMusic = document.getElementById('loopMusic');
 const ding = document.getElementById('dingSound');
 const select = document.getElementById('selectSound');
-const jingle = document.getElementById('jingleSound');
 
 function playDing(){ ding.currentTime = 0; ding.play().catch(()=>{}); }
 function playSelect(){ select.currentTime = 0; select.play().catch(()=>{}); }
@@ -241,6 +152,7 @@ healthScreen.addEventListener('click', ()=>{
 });
 startMusic.addEventListener('ended', ()=>loopMusic.play().catch(()=>{}));
 
+
 const blackOverlay = document.getElementById('blackOverlay');
 function handleButtonClick(url){
   playDing();
@@ -253,81 +165,14 @@ function handleButtonClick(url){
   },500);
 }
 
+
 document.querySelectorAll('.scale-button').forEach((btn,index)=>{
   btn.addEventListener('mouseenter', ()=>playSelect());
   if(index===0) btn.addEventListener('click', ()=>handleButtonClick('https://discord.gg/W3zWF6w9RD'));
   if(index===1) btn.addEventListener('click', ()=>handleButtonClick('https://CooIer01.github.io/old-nintendo-land/'));
 });
-
-/* Easter Egg */
-const coolerText = document.getElementById('coolerText');
-const cubeScreen = document.getElementById('cubeScreen');
-coolerText.addEventListener('click', ()=>{
-  playSelect();
-  jingle.currentTime = 0; jingle.play().catch(()=>{});
-  document.body.style.cursor='auto';
-  cubeScreen.style.display='flex';
-  setTimeout(()=>playDing(),400);
-});
-cubeScreen.addEventListener('click', ()=>{
-  cubeScreen.style.display='none';
-  document.body.style.cursor='none';
-});
-
-/* Snow */
-const canvas = document.getElementById("snowCanvas");
-const ctx = canvas.getContext("2d");
-let snowflakes = [];
-
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
-
-function createSnowflakes() {
-  for (let i = 0; i < 100; i++) {
-    snowflakes.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      r: Math.random() * 3 + 1,
-      d: Math.random() + 1
-    });
-  }
-}
-createSnowflakes();
-
-function drawSnowflakes() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "white";
-  ctx.beginPath();
-  for (let i = 0; i < snowflakes.length; i++) {
-    const f = snowflakes[i];
-    ctx.moveTo(f.x, f.y);
-    ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2, true);
-  }
-  ctx.fill();
-  updateSnowflakes();
-}
-
-let angle = 0;
-function updateSnowflakes() {
-  angle += 0.01;
-  for (let i = 0; i < snowflakes.length; i++) {
-    const f = snowflakes[i];
-    f.y += Math.pow(f.d, 2) + 1;
-    f.x += Math.sin(angle) * 2;
-    if (f.y > canvas.height) {
-      snowflakes[i] = { x: Math.random() * canvas.width, y: 0, r: f.r, d: f.d };
-    }
-  }
-}
-
-setInterval(drawSnowflakes, 33);
 </script>
 </body>
 </html>
-
 
 
